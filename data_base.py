@@ -29,8 +29,7 @@ class DataBase:
 
     def create_items_table(self) -> None:
         """Создать новый элемент в таблице главного окна"""
-        self.__cursor.execute("""CREATE TABLE IF NOT EXISTS main_items(items TEXT, 
-        status INTEGER);""")
+        self.__cursor.execute("""CREATE TABLE IF NOT EXISTS main_items(items TEXT);""")
 
     def create_new_table(self) -> None:
         """
