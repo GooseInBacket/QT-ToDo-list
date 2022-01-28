@@ -15,17 +15,17 @@ class DataBase:
         self.__cursor.execute(f'''INSERT INTO {table_name} VALUES(?, ?)''', (task, 0))
         self.__connect.commit()
 
-    def add_new_item_in_main_list(self, item: Tuple[str]):
+    def add_new_item_in_main_list(self, item: Tuple[str]) -> None:
         self.__cursor.execute('INSERT INTO main_items VALUES(?);', item)
         item = '_'.join(item[0].split())
         self.__cursor.execute(f"""CREATE TABLE IF NOT EXISTS {item}(items TEXT, status INTEGER);""")
         self.__connect.commit()
 
-    def create_items_table(self):
+    def create_items_table(self) -> None:
         self.__cursor.execute("""CREATE TABLE IF NOT EXISTS main_items(items TEXT, 
         status INTEGER);""")
 
-    def create_new_table(self):
+    def create_new_table(self) -> None:
         list_table = map(lambda x: x[0], self.get_all_items())
         for name in list_table:
             name = '_'.join(name.split())
@@ -40,7 +40,8 @@ class DataBase:
         return self.__cursor.execute("SELECT * FROM main_items").fetchall()
 
     def get_from(self, table_name: str, search: str) -> tuple:
-        return self.__cursor.execute(f"SELECT * FROM {table_name} WHERE items='{search}'").fetchone()
+        return self.__cursor.execute(
+            f"SELECT * FROM {table_name} WHERE items='{search}';").fetchone()
 
     def set_default_item(self) -> None:
         data = [('Мой день',), ('Важно',), ('Запланировано',), ('Все',),
@@ -51,24 +52,27 @@ class DataBase:
     def refresh_status(self, table_name: str, item: str) -> None:
         status = 0 if self.get_from(table_name, item)[1] else 1
         self.__cursor.execute(
-            f"""UPDATE {table_name} SET status = {status} WHERE items = '{item}'""")
+            f"""UPDATE {table_name} SET status = {status} WHERE items = '{item}';""")
         self.__connect.commit()
 
     def delete(self, table_name: str, item: str) -> None:
         self.__cursor.execute(f"""DELETE FROM {table_name} WHERE items='{item}';""")
         self.__connect.commit()
 
-    def delete_table(self, table_name: str):
+    def delete_table(self, table_name: str) -> None:
         self.delete('main_items', table_name)
         table_name = '_'.join(table_name.split())
         self.__cursor.execute(f"""DROP TABLE IF EXISTS {table_name};""")
         self.__connect.commit()
 
-    def edit(self, table_name: str, item: str | int, new_item: str, column='items'):
+    def edit(self, table_name: str, item: str | int, new_item: str, column='items') -> None:
         self.__cursor.execute(
-            f"""UPDATE {table_name} SET {column} = '{new_item}' WHERE items='{item}'""")
+            f"""UPDATE {table_name} SET {column} = '{new_item}' WHERE items='{item}';""")
         self.__connect.commit()
 
-
-# DataBase().delete_table('Еще один')
-# DataBase().delete_table('Мой список')
+    def rename_table(self, old_name: str, new_name: str) -> None:
+        self.__cursor.execute(
+            f'''UPDATE main_items SET items = '{old_name}' WHERE items="{new_name}";''')
+        old_name = '_'.join(old_name.split())
+        self.__cursor.execute(f"""ALTER TABLE '{old_name}' RENAME TO '{new_name}';""")
+        self.__connect.commit()

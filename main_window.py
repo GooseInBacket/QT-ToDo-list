@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMenu
 from Windows.main_win import Ui_MainWindow
 from data_base import DataBase
-from window import AddWindow, TaskWindow
+from window import AddWindow, TaskWindow, SettingWin
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -24,26 +24,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.settings.setIconSize(QSize(20, 20))
 
         self.add.clicked.connect(self.add_new_item)
+        self.settings.clicked.connect(self.settings_win)
         self.main_list.itemClicked.connect(self.click)
         self.main_list.installEventFilter(self)
 
-    def create_main_menu(self):
+    def create_main_menu(self) -> None:
         self.main_list.clear()
         list_item = map(lambda x: f'| {x[0]}', self.__data_base.get_all_items())
         for i, name in enumerate(list_item):
             self.create_item(i, name)
 
-    def add_new_item(self):
+    def add_new_item(self) -> None:
         self.__window.window_closed.connect(self.create_main_menu)
         self.__window.show()
 
-    def create_button(self):
+    def create_button(self) -> None:
         icon = QIcon(f'Icon/plus.png')
         self.add.setIcon(icon)
         self.add.setText(' Создать список')
         self.add.setIconSize(QSize(15, 15))
 
-    def create_item(self, i, name):
+    def create_item(self, i: int, name: str) -> None:
         item = QListWidgetItem()
         if i < 7:
             icon = QIcon(f'Icon/item_{i + 1}.png')
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.main_list.addItem(item)
         self.main_list.setIconSize(QSize(15, 15))
 
-    def click(self, item):
+    def click(self, item) -> None:
         self.task_win = TaskWindow(item.text()[2:], QIcon(item.icon()))
         self.task_win.show()
 
@@ -70,27 +71,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     delete_action = menu.addAction('Удалить')
                     delete_action.setIcon(QIcon('Icon/bin (1).png'))
 
-                    edit_action = menu.addAction('Изменить')
-                    edit_action.setIcon(QIcon('Icon/refresh.png'))
-
                     action = menu.exec_(event.globalPos())
                     if action == delete_action:
                         self.delete(text)
-                    elif action == edit_action:
-                        self.edit(text, QIcon(edit_action.icon()))
             return True
         return super().eventFilter(source, event)
 
-    def delete(self, item: str):
-        print(item)
+    def delete(self, item: str) -> None:
         self.__data_base.delete_table(item)
         self.create_main_menu()
 
-    def edit(self, item, icon):
-        print('asd')
-        # self.edit_win = EditWin(item, self.__window_name, icon)
-        # self.edit_win.window_closed.connect(self.update_tasks)
-        # self.edit_win.show()
+    def settings_win(self) -> None:
+        self.stgs = SettingWin()
+        self.stgs.show()
 
 
 def run():

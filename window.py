@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMenu, QAction
 from Windows.add_win import Ui_Form
 from Windows.task_win import Ui_Form as Task
 from Windows.add_task import Ui_Form as Ui_AddTask
+from Windows.settings_win import Ui_Form as Ui_Settings
 
 from data_base import DataBase
 from datetime import datetime
@@ -23,13 +24,13 @@ class AddWindow(QWidget, Ui_Form):
         self.cancel.clicked.connect(self.quit)
         self.submit.clicked.connect(self.set_item)
 
-    def set_item(self):
+    def set_item(self) -> None:
         name = (self.name_item.text(),)
         if name[0]:
             self.__data_base.add_new_item_in_main_list(name)
         self.quit()
 
-    def quit(self):
+    def quit(self) -> None:
         self.name_item.setText('')
         self.window_closed.emit()
         self.close()
@@ -58,17 +59,17 @@ class TaskWindow(QWidget, Task):
         self.list_todo.itemDoubleClicked.connect(self.double_clicked)
         self.list_todo.installEventFilter(self)
 
-    def add_task(self):
+    def add_task(self) -> None:
         self.add_win.window_closed.connect(self.update_tasks)
         self.add_win.show()
 
-    def update_tasks(self):
+    def update_tasks(self) -> None:
         self.list_todo.clear()
         tasks = map(lambda x: f' {x[0]}', self.__data_base.get_all_tasks_from(self.__window_name))
         for name in tasks:
             self.create_item(name)
 
-    def create_item(self, name: str):
+    def create_item(self, name: str) -> None:
         item = QListWidgetItem()
         status = self.__data_base.get_from(self.__window_name, name[1:])[1]
 
@@ -81,13 +82,13 @@ class TaskWindow(QWidget, Task):
         self.list_todo.addItem(item)
         self.list_todo.setIconSize(QSize(15, 15))
 
-    def set_date(self, name_window: str):
+    def set_date(self, name_window: str) -> None:
         if name_window == 'Мой день':
             self.date.setText(f'Сегодня {datetime.today().date()}')
         else:
             self.date.setText('')
 
-    def double_clicked(self, item):
+    def double_clicked(self, item) -> None:
         text = item.text()[1:]
         status = self.__data_base.get_from(self.__window_name, text)[1]
         self.__data_base.refresh_status(self.__window_name, text)
@@ -118,11 +119,11 @@ class TaskWindow(QWidget, Task):
             return True
         return super().eventFilter(source, event)
 
-    def delete(self, item: str):
+    def delete(self, item: str) -> None:
         self.__data_base.delete(self.__window_name, item)
         self.update_tasks()
 
-    def edit(self, item, icon):
+    def edit(self, item: str, icon: QIcon) -> None:
         self.edit_win = EditWin(item, self.__window_name, icon)
         self.edit_win.window_closed.connect(self.update_tasks)
         self.edit_win.show()
@@ -145,13 +146,13 @@ class AddTask(QWidget, Ui_AddTask):
         self.cancel.clicked.connect(self.quit)
         self.add.clicked.connect(self.set_task)
 
-    def set_task(self):
+    def set_task(self) -> None:
         task = self.task_line.text()
         if task:
             self.__data_base.add_task_to(self.__window_name, task)
         self.quit()
 
-    def quit(self):
+    def quit(self) -> None:
         self.task_line.setText('')
         self.window_closed.emit()
         self.close()
@@ -176,14 +177,30 @@ class EditWin(QWidget, Ui_Form):
         self.submit.setText('Изменить')
         self.submit.clicked.connect(self.edit)
 
-    def quit(self):
+    def quit(self) -> None:
         self.name_item.setText('')
         self.window_closed.emit()
         self.close()
 
-    def edit(self):
+    def edit(self) -> None:
         new_task = self.name_item.text()
         if new_task:
             self.__data_base.edit(self.__name_table, self.__old_task_name, new_task)
         self.quit()
 
+
+class SettingWin(QWidget, Ui_Settings):
+    def __init__(self):
+        super(SettingWin, self).__init__()
+
+        self.setupUi(self)
+        self.color = self.white.palette().button().color()
+
+        self.pink.clicked.connect(self.set_color)
+        self.black.clicked.connect(self.set_color)
+        self.white.clicked.connect(self.set_color)
+        self.gray.clicked.connect(self.set_color)
+
+    def set_color(self, item):
+        # color = item.pallete().button().color()
+        print('sds')
