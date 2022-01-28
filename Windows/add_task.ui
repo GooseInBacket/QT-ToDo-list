@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>131</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>300</width>
+    <height>131</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>430</width>
+    <height>131</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Добавить задачу</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Добавить задачу</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="task_line">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{
+	border:None;
+	border-bottom: 2px solid rgb(0, 157, 255);
+}</string>
+     </property>
+     <property name="placeholderText">
+      <string>Добавить задачу</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Дата выполнения</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateTimeEdit" name="date">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QDateTimeEdit{
+	border:None;
+}</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="cancel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	text-align: right;
+	margin-top: 10px;
+	background-color: rgb(255, 255, 255);
+	border: 0px solid transparent;
+}
+
+QPushButton:hover
+{
+	background-color: rgb(208, 208, 208);
+}
+
+QPushButton:pressed
+{
+	background-color: rgb(183, 228, 255);
+}
+
+QPushButton:disabled
+{
+	background-color: rgb(165, 165, 165);
+	border-color: rgb(77, 77, 77);
+	color: rgb(255, 255, 255);
+}</string>
+       </property>
+       <property name="text">
+        <string>Отмена</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="add">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	text-align: right;
+	margin-top: 10px;
+	background-color: rgb(255, 255, 255);
+	border: 0px solid transparent;
+}
+
+QPushButton:hover
+{
+	background-color: rgb(208, 208, 208);
+}
+
+QPushButton:pressed
+{
+	background-color: rgb(183, 228, 255);
+}
+
+QPushButton:disabled
+{
+	background-color: rgb(165, 165, 165);
+	border-color: rgb(77, 77, 77);
+	color: rgb(255, 255, 255);
+}</string>
+       </property>
+       <property name="text">
+        <string>Добавить задачу</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
