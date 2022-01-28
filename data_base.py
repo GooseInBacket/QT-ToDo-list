@@ -1,5 +1,5 @@
 import sqlite3
-from typing import Tuple, Union
+from typing import Tuple
 
 
 class DataBase:
