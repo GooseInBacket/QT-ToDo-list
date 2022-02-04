@@ -38,9 +38,9 @@ class Ui_MainWindow(object):
         self.main_list.setFont(font)
         self.main_list.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.main_list.setStyleSheet("QListWidget{\n"
-"    border: 1px solid transparent;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"}")
+                                     "    border: 1px solid transparent;\n"
+                                     "    background-color: rgba(255, 255, 255, 0);\n"
+                                     "}")
         self.main_list.setIconSize(QtCore.QSize(15, 15))
         self.main_list.setObjectName("main_list")
         self.verticalLayout.addWidget(self.main_list)
@@ -52,27 +52,27 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.add.setFont(font)
         self.add.setStyleSheet("QPushButton{\n"
-"    text-align: left;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"    border: 0px solid transparent;\n"
-"}\n"
-"\n"
-"QPushButton:hover\n"
-"{\n"
-"    background-color: rgb(208, 208, 208);\n"
-"}\n"
-"\n"
-"QPushButton:pressed\n"
-"{\n"
-"    background-color: rgb(183, 228, 255);\n"
-"}\n"
-"\n"
-"QPushButton:disabled\n"
-"{\n"
-"    background-color: rgb(165, 165, 165);\n"
-"    border-color: rgb(77, 77, 77);\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                               "    text-align: left;\n"
+                               "    background-color: rgba(255, 255, 255, 0);\n"
+                               "    border: 0px solid transparent;\n"
+                               "}\n"
+                               "\n"
+                               "QPushButton:hover\n"
+                               "{\n"
+                               "    background-color: rgb(208, 208, 208);\n"
+                               "}\n"
+                               "\n"
+                               "QPushButton:pressed\n"
+                               "{\n"
+                               "    background-color: rgb(183, 228, 255);\n"
+                               "}\n"
+                               "\n"
+                               "QPushButton:disabled\n"
+                               "{\n"
+                               "    background-color: rgb(165, 165, 165);\n"
+                               "    border-color: rgb(77, 77, 77);\n"
+                               "    color: rgb(255, 255, 255);\n"
+                               "}")
         self.add.setObjectName("add")
         self.horizontalLayout.addWidget(self.add)
         self.settings = QtWidgets.QPushButton(self.centralwidget)
@@ -81,32 +81,32 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.settings.setFont(font)
         self.settings.setStyleSheet("QPushButton{\n"
-"    text-align: left;\n"
-"    \n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"    border: 0px solid transparent;\n"
-"    margin-left: 120px;\n"
-"}\n"
-"\n"
-"QAbstractButton{\n"
-"     qproperty-iconSize: 20px;\n"
-"}\n"
-"\n"
-"QAbstractButton::hover {\n"
-"     qproperty-iconSize: 25px;\n"
-"}\n"
-"\n"
-"QPushButton:pressed\n"
-"{\n"
-"    background-color: rgb(183, 228, 255);\n"
-"}\n"
-"\n"
-"QPushButton:disabled\n"
-"{\n"
-"    background-color: rgb(165, 165, 165);\n"
-"    border-color: rgb(77, 77, 77);\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                    "    text-align: left;\n"
+                                    "    \n"
+                                    "    background-color: rgba(255, 255, 255, 0);\n"
+                                    "    border: 0px solid transparent;\n"
+                                    "    margin-left: 115px;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QAbstractButton{\n"
+                                    "     qproperty-iconSize: 20px;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QAbstractButton::hover {\n"
+                                    "     qproperty-iconSize: 25px;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton:pressed\n"
+                                    "{\n"
+                                    "    background-color: rgb(183, 228, 255);\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton:disabled\n"
+                                    "{\n"
+                                    "    background-color: rgb(165, 165, 165);\n"
+                                    "    border-color: rgb(77, 77, 77);\n"
+                                    "    color: rgb(255, 255, 255);\n"
+                                    "}")
         self.settings.setObjectName("settings")
         self.horizontalLayout.addWidget(self.settings)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -119,6 +119,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ToDo"))
         self.welcome.setText(_translate("MainWindow", "Добро\n"
-"пожаловать"))
+                                                      "пожаловать"))
         self.add.setText(_translate("MainWindow", " Добавить список "))
         self.settings.setText(_translate("MainWindow", "Настройки"))

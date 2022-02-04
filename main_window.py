@@ -1,10 +1,13 @@
+import os.path
 import sys
 from PyQt5.QtCore import QSize, QEvent
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMenu
+
 from Windows.main_win import Ui_MainWindow
-from data_base import DataBase
 from window import AddWindow, TaskWindow, SettingWin
+
+from data_base import DataBase
 from loguru import logger
 from settings import *
 
@@ -17,31 +20,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
 
         self.setupUi(self)
-        self.create_button()
         self.__data_base = DataBase()
-        self.__window = AddWindow()
+        self.window_settings()
 
+    @logger.catch(message='Ошибка настроек главного окна')
+    def window_settings(self):
+        self.create_button()
         self.create_main_menu()
         self.setWindowIcon(QIcon(icon_todo))
 
         self.settings.setText('')
         self.settings.setIcon(QIcon(icon_setting))
-        self.settings.setIconSize(QSize(size_si, size_si))
+        self.settings.setIconSize(QSize(20, 20))
 
         self.add.clicked.connect(self.add_new_item)
         self.settings.clicked.connect(self.settings_win)
+
         self.main_list.itemClicked.connect(self.click)
         self.main_list.installEventFilter(self)
 
+    @logger.catch(message='Ошибка обновления главного окна')
     def create_main_menu(self) -> None:
+        # print(self.sender())
         """
-        Создаёт / обновляет список элементов
+        Создаёт списки на главном окне
         :return: None
         """
         self.main_list.clear()
         list_item = map(lambda x: f'| {x[0]}', self.__data_base.get_all_items())
-        for i, name in enumerate(list_item):
-            self.create_item(i, name)
+        for name in list_item:
+            self.create_item(name)
+
+        size = self.__data_base.get_settings('icon')
+        self.add.setIconSize(QSize(size, size))
+        self.setStyleSheet(self.__data_base.get_settings('color'))
+
         logger.info('Главное окно обновлено')
 
     def add_new_item(self) -> None:
@@ -49,36 +62,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Добавляет новый элемент в список главного окна
         :return: None
         """
+        self.__window = AddWindow()
         self.__window.window_closed.connect(self.create_main_menu)
         self.__window.show()
 
     def create_button(self) -> None:
         """
-        Создание абстрактной кнопки c "Создать" с иконкой
+        Создание абстрактной кнопки "Создать" с иконкой
         :return: None
         """
         icon = QIcon(icon_plus)
+        size = self.__data_base.get_settings('icon')
         self.add.setIcon(icon)
-        self.add.setText(' Создать список')
-        self.add.setIconSize(QSize(size_ti, size_ti))
+        self.add.setText(' Создать список ')
+        self.add.setIconSize(QSize(size, size))
 
-    def create_item(self, i: int, name: str) -> None:
+    @logger.catch(message='Ошибка создания объекта списка')
+    def create_item(self, name: str) -> None:
         """
         Создаёт объект списка в главном окне
-        :param i: номер элемента
         :param name: имя элемента
         :return: None
         """
-        item = QListWidgetItem()
-        if i < 7:
-            icon = QIcon(f'Icon/item_{i + 1}.png')
-        else:
-            icon = QIcon(icon_todo)
-        item.setIcon(icon)
-        item.setText(name)
+        path_to_icon = path.join('Icon', f'{name[2:]}.png')
+        icon = QIcon(path_to_icon) if os.path.isfile(path_to_icon) else QIcon(icon_todo)
+        size = self.__data_base.get_settings('icon')
 
-        self.main_list.addItem(item)
-        self.main_list.setIconSize(QSize(size_ti, size_ti))
+        self.main_list.addItem(QListWidgetItem(icon, name))
+        self.main_list.setIconSize(QSize(size, size))
 
     def click(self, item) -> None:
         """Обработчик нажатия на объект в списке"""
@@ -106,6 +117,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return True
         return super().eventFilter(source, event)
 
+    @logger.catch(message='Ошибка удаления объекта')
     def delete(self, item: str) -> None:
         """
         Обработчик функции "удалить" в контекстном меню
@@ -120,8 +132,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Обработчик нажатия на кнопку настроек
         :return: None
         """
-        self.stgs = SettingWin()
-        self.stgs.show()
+        self.__stgs = SettingWin()
+        self.__stgs.setWindowIcon(QIcon(self.sender().icon()))
+        self.__stgs.setStyleSheet(self.__data_base.get_settings('Color'))
+        self.__stgs.window_closed.connect(self.create_main_menu)
+        self.__stgs.show()
 
 
 def run():

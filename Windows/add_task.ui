@@ -103,7 +103,7 @@
         <string notr="true">QPushButton{
 	text-align: right;
 	margin-top: 10px;
-	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0);
 	border: 0px solid transparent;
 }
 
@@ -141,7 +141,7 @@ QPushButton:disabled
         <string notr="true">QPushButton{
 	text-align: right;
 	margin-top: 10px;
-	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0);
 	border: 0px solid transparent;
 }
 

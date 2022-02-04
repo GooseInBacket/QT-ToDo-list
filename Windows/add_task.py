@@ -17,7 +17,6 @@ class Ui_Form(object):
         Form.resize(300, 131)
         Form.setMinimumSize(QtCore.QSize(300, 131))
         Form.setMaximumSize(QtCore.QSize(430, 131))
-        Form.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Form)
@@ -66,7 +65,7 @@ class Ui_Form(object):
         self.cancel.setStyleSheet("QPushButton{\n"
 "    text-align: right;\n"
 "    margin-top: 10px;\n"
-"    background-color: rgb(255, 255, 255);\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
 "    border: 0px solid transparent;\n"
 "}\n"
 "\n"
@@ -96,7 +95,7 @@ class Ui_Form(object):
         self.add.setStyleSheet("QPushButton{\n"
 "    text-align: right;\n"
 "    margin-top: 10px;\n"
-"    background-color: rgb(255, 255, 255);\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
 "    border: 0px solid transparent;\n"
 "}\n"
 "\n"

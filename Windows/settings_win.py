@@ -14,8 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(380, 132)
-        Form.setStyleSheet("background-color: rgb(255, 255, 255);")
+        Form.resize(380, 171)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -74,6 +73,69 @@ class Ui_Form(object):
         self.white.setObjectName("white")
         self.horizontalLayout_4.addWidget(self.white)
         self.verticalLayout.addWidget(self.groupBox)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.cancel = QtWidgets.QPushButton(Form)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.cancel.setFont(font)
+        self.cancel.setStyleSheet("QPushButton{\n"
+"    text-align: right;\n"
+"    margin-top: 10px;\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"    border: 0px solid transparent;\n"
+"}\n"
+"\n"
+"QPushButton:hover\n"
+"{\n"
+"    background-color: rgb(208, 208, 208);\n"
+"}\n"
+"\n"
+"QPushButton:pressed\n"
+"{\n"
+"    background-color: rgb(183, 228, 255);\n"
+"}\n"
+"\n"
+"QPushButton:disabled\n"
+"{\n"
+"    background-color: rgb(165, 165, 165);\n"
+"    border-color: rgb(77, 77, 77);\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.cancel.setObjectName("cancel")
+        self.horizontalLayout_2.addWidget(self.cancel)
+        self.submit = QtWidgets.QPushButton(Form)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.submit.setFont(font)
+        self.submit.setStyleSheet("QPushButton{\n"
+"    text-align: right;\n"
+"    margin-top: 10px;\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"    border: 0px solid transparent;\n"
+"}\n"
+"\n"
+"QPushButton:hover\n"
+"{\n"
+"    background-color: rgb(208, 208, 208);\n"
+"}\n"
+"\n"
+"QPushButton:pressed\n"
+"{\n"
+"    background-color: rgb(183, 228, 255);\n"
+"}\n"
+"\n"
+"QPushButton:disabled\n"
+"{\n"
+"    background-color: rgb(165, 165, 165);\n"
+"    border-color: rgb(77, 77, 77);\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.submit.setObjectName("submit")
+        self.horizontalLayout_2.addWidget(self.submit)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -82,5 +144,9 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Настройки"))
         self.label.setText(_translate("Form", "Размер шрифта"))
-        self.label_2.setText(_translate("Form", "Размер сторны иконок"))
+        self.label_2.setText(_translate("Form", "Размер иконок"))
         self.groupBox.setTitle(_translate("Form", "Цветовое оформление"))
+        self.cancel.setText(_translate("Form", "Отмена"))
+        self.cancel.setShortcut(_translate("Form", "Esc"))
+        self.submit.setText(_translate("Form", "Применить"))
+        self.submit.setShortcut(_translate("Form", "Return"))

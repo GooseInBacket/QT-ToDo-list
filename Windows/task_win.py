@@ -15,7 +15,6 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(300, 455)
-        Form.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.name = QtWidgets.QLabel(Form)
@@ -38,19 +37,19 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.date)
         self.list_todo = QtWidgets.QListWidget(Form)
         self.list_todo.setStyleSheet("QListWidget{\n"
-"    border: 1px solid transparent;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"}\n"
-"\n"
-"QListWidget:item{\n"
-"    border:None;\n"
-"    border-bottom: 1px solid rgb(0, 157, 255);\n"
-"}\n"
-"\n"
-"QListWidget:item:selected{\n"
-"    background-color: rgb(0, 157, 255);\n"
-"    color: rgb(0, 0, 0);\n"
-"}")
+                                     "    border: 1px solid transparent;\n"
+                                     "    background-color: rgba(255, 255, 255, 0);\n"
+                                     "}\n"
+                                     "\n"
+                                     "QListWidget:item{\n"
+                                     "    border:None;\n"
+                                     "    border-bottom: 1px solid rgb(0, 157, 255);\n"
+                                     "}\n"
+                                     "\n"
+                                     "QListWidget:item:selected{\n"
+                                     "    background-color: rgb(0, 157, 255);\n"
+                                     "    color: rgb(0, 0, 0);\n"
+                                     "}")
         self.list_todo.setObjectName("list_todo")
         self.verticalLayout.addWidget(self.list_todo)
         self.add = QtWidgets.QPushButton(Form)
@@ -59,27 +58,27 @@ class Ui_Form(object):
         font.setPointSize(12)
         self.add.setFont(font)
         self.add.setStyleSheet("QPushButton{\n"
-"    text-align: left;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"    border: 0px solid transparent;\n"
-"}\n"
-"\n"
-"QPushButton:hover\n"
-"{\n"
-"    background-color: rgb(208, 208, 208);\n"
-"}\n"
-"\n"
-"QPushButton:pressed\n"
-"{\n"
-"    background-color: rgb(183, 228, 255);\n"
-"}\n"
-"\n"
-"QPushButton:disabled\n"
-"{\n"
-"    background-color: rgb(165, 165, 165);\n"
-"    border-color: rgb(77, 77, 77);\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                               "    text-align: left;\n"
+                               "    background-color: rgba(255, 255, 255, 0);\n"
+                               "    border: 0px solid transparent;\n"
+                               "}\n"
+                               "\n"
+                               "QPushButton:hover\n"
+                               "{\n"
+                               "    background-color: rgb(208, 208, 208);\n"
+                               "}\n"
+                               "\n"
+                               "QPushButton:pressed\n"
+                               "{\n"
+                               "    background-color: rgb(183, 228, 255);\n"
+                               "}\n"
+                               "\n"
+                               "QPushButton:disabled\n"
+                               "{\n"
+                               "    background-color: rgb(165, 165, 165);\n"
+                               "    border-color: rgb(77, 77, 77);\n"
+                               "    color: rgb(255, 255, 255);\n"
+                               "}")
         self.add.setObjectName("add")
         self.verticalLayout.addWidget(self.add)
 

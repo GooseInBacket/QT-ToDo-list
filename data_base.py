@@ -1,10 +1,12 @@
 import sqlite3
+# from datetime import datetime
 from typing import Tuple
 from loguru import logger
 
 
 class DataBase:
     """Класс работы с БД"""
+
     def __init__(self):
         self.__connect = sqlite3.connect('data.sqlite3')
         self.__cursor = self.__connect.cursor()
@@ -13,23 +15,33 @@ class DataBase:
         if not self.get_all_items():
             self.set_default_item()
 
-    def add_task_to(self, table_name: str, task: Tuple[str]) -> None:
+    def add_task_to(self, table_name: str, task: Tuple[str], date) -> None:
         """Добавить задачу в указанную таблицу"""
-        self.__cursor.execute(f'''INSERT INTO {table_name} VALUES(?, ?)''', (task, 0))
+        self.__cursor.execute(f'''INSERT INTO {table_name} VALUES(?, ?, ?)''', (task, 0, date))
+        if table_name != 'Все':
+            self.__cursor.execute(f'''INSERT INTO Все VALUES(?, ?, ?)''', (task, 0, date))
         self.__connect.commit()
-        logger.success(f'"{task}" удачно добавлен в "{table_name}"')
+        logger.success(f'"{task}" на дату {date} удачно добавлен в "{table_name}"')
 
     def add_new_item_in_main_list(self, item: Tuple[str]) -> None:
         """Добавить элементы в таблицу главного окна"""
         self.__cursor.execute('INSERT INTO main_items VALUES(?);', item)
         item = '_'.join(item[0].split())
-        self.__cursor.execute(f"""CREATE TABLE IF NOT EXISTS {item}(items TEXT, status INTEGER);""")
+        self.__cursor.execute(f"""CREATE TABLE IF NOT EXISTS {item}
+        (items TEXT, 
+        status INTEGER, 
+        data timestamp);""")
         self.__connect.commit()
         logger.success(f'"{item}" удачно добавлен в главное меню')
 
     def create_items_table(self) -> None:
         """Создать новый элемент в таблице главного окна"""
         self.__cursor.execute("""CREATE TABLE IF NOT EXISTS main_items(items TEXT);""")
+        self.__cursor.execute("""CREATE TABLE IF NOT EXISTS settings(
+        id INTEGER,
+        color TEXT, 
+        font INTEGER, 
+        icon INTEGER);""")
 
     def create_new_table(self) -> None:
         """
@@ -41,7 +53,8 @@ class DataBase:
             name = '_'.join(name.split())
             self.__cursor.execute(f"""CREATE TABLE IF NOT EXISTS {name}
             (items TEXT, 
-            status INTEGER);""")
+            status INTEGER,
+            data timestamp);""")
         logger.info('Таблицы обновлены')
 
     def get_all_tasks_from(self, table_name: str) -> list:
@@ -73,10 +86,14 @@ class DataBase:
         """Установить дефолтные элементы для главного окна"""
         data = [('Мой день',), ('Важно',), ('Запланировано',), ('Все',),
                 ('Завершенные',), ('Назначить мне',), ('Задачи',)]
+        settings = (1, "background-color: rgb(255, 255, 255);", 14, 16)
+
         self.__cursor.executemany("INSERT INTO main_items VALUES(?);", data)
+        self.__cursor.execute("INSERT INTO settings VALUES(?, ?, ?, ?);", settings)
         self.__connect.commit()
         logger.info('Элементы главного окна созданы')
 
+    @logger.catch()
     def refresh_status(self, table_name: str, item: str) -> None:
         """
         Обновить статус выполнения элемента в таблицк
@@ -84,9 +101,20 @@ class DataBase:
         :param item: название элемента
         :return: None
         """
-        status = 0 if self.get_from(table_name, item)[1] else 1
-        self.__cursor.execute(
-            f"""UPDATE {table_name} SET status = {status} WHERE items = '{item}';""")
+        *data, date = self.get_from(table_name, item)
+        status = 0 if data[1] else 1
+
+        upd = f"""UPDATE {table_name} SET status = {status} WHERE items = '{item}';"""
+        upd_all = f"""UPDATE Все SET status = {status} WHERE items = '{item}';"""
+        upd_done = f"""INSERT INTO Завершенные VALUES(?, ?, ?)"""
+
+        self.__cursor.execute(upd)
+        self.__cursor.execute(upd_all)
+        if status:
+            self.__cursor.execute(upd_done, (data[0], status, date))
+        else:
+            self.delete('Завершенные', data[0])
+
         self.__connect.commit()
         logger.info(f'Элемент "{item}" статус = {status}')
 
@@ -139,3 +167,12 @@ class DataBase:
         old_name = '_'.join(old_name.split())
         self.__cursor.execute(f"""ALTER TABLE '{old_name}' RENAME TO '{new_name}';""")
         self.__connect.commit()
+
+    def get_settings(self, item: str = '*'):
+        return self.__cursor.execute(f"SELECT {item} FROM settings WHERE id=1;").fetchone()[0]
+
+    def update_settings(self, col: str, new_item: str | int, old_item: str | int):
+        self.__cursor.execute(
+            f"""UPDATE settings SET {col}='{new_item}' WHERE {col}='{old_item}';""")
+        self.__connect.commit()
+        logger.info(f'Настройки изменены | {col}:{old_item} => {new_item}')

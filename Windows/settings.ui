@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>132</height>
+    <height>171</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Размер сторны иконок</string>
+        <string>Размер иконок</string>
        </property>
       </widget>
      </item>
@@ -122,6 +122,92 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="cancel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	text-align: right;
+	margin-top: 10px;
+	background-color: rgba(255, 255, 255, 0);
+	border: 0px solid transparent;
+}
+
+QPushButton:hover
+{
+	background-color: rgb(208, 208, 208);
+}
+
+QPushButton:pressed
+{
+	background-color: rgb(183, 228, 255);
+}
+
+QPushButton:disabled
+{
+	background-color: rgb(165, 165, 165);
+	border-color: rgb(77, 77, 77);
+	color: rgb(255, 255, 255);
+}</string>
+       </property>
+       <property name="text">
+        <string>Отмена</string>
+       </property>
+       <property name="shortcut">
+        <string>Esc</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="submit">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	text-align: right;
+	margin-top: 10px;
+	background-color: rgba(255, 255, 255, 0);
+	border: 0px solid transparent;
+}
+
+QPushButton:hover
+{
+	background-color: rgb(208, 208, 208);
+}
+
+QPushButton:pressed
+{
+	background-color: rgb(183, 228, 255);
+}
+
+QPushButton:disabled
+{
+	background-color: rgb(165, 165, 165);
+	border-color: rgb(77, 77, 77);
+	color: rgb(255, 255, 255);
+}</string>
+       </property>
+       <property name="text">
+        <string>Применить</string>
+       </property>
+       <property name="shortcut">
+        <string>Return</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
