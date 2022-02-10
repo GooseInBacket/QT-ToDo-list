@@ -1,5 +1,4 @@
 import sqlite3
-# from datetime import datetime
 from typing import Tuple
 from loguru import logger
 
@@ -17,9 +16,9 @@ class DataBase:
 
     def add_task_to(self, table_name: str, task: Tuple[str], date) -> None:
         """Добавить задачу в указанную таблицу"""
-        self.__cursor.execute(f'''INSERT INTO {table_name} VALUES(?, ?, ?)''', (task, 0, date))
+        self.__cursor.execute(f'''INSERT INTO {table_name} VALUES(?, ?, ?, ?)''', (task, 0, date, 0))
         if table_name != 'Все':
-            self.__cursor.execute(f'''INSERT INTO Все VALUES(?, ?, ?)''', (task, 0, date))
+            self.__cursor.execute(f'''INSERT INTO Все VALUES(?, ?, ?, ?)''', (task, 0, date, 0))
         self.__connect.commit()
         logger.success(f'"{task}" на дату {date} удачно добавлен в "{table_name}"')
 
@@ -30,7 +29,8 @@ class DataBase:
         self.__cursor.execute(f"""CREATE TABLE IF NOT EXISTS {item}
         (items TEXT, 
         status INTEGER, 
-        data timestamp);""")
+        data timestamp,
+        importance BOOLEAN);""")
         self.__connect.commit()
         logger.success(f'"{item}" удачно добавлен в главное меню')
 
@@ -54,7 +54,8 @@ class DataBase:
             self.__cursor.execute(f"""CREATE TABLE IF NOT EXISTS {name}
             (items TEXT, 
             status INTEGER,
-            data timestamp);""")
+            data timestamp,
+            importance BOOLEAN);""")
         logger.info('Таблицы обновлены')
 
     def get_all_tasks_from(self, table_name: str) -> list:
@@ -101,17 +102,17 @@ class DataBase:
         :param item: название элемента
         :return: None
         """
-        *data, date = self.get_from(table_name, item)
+        *data, date, important = self.get_from(table_name, item)
         status = 0 if data[1] else 1
 
         upd = f"""UPDATE {table_name} SET status = {status} WHERE items = '{item}';"""
         upd_all = f"""UPDATE Все SET status = {status} WHERE items = '{item}';"""
-        upd_done = f"""INSERT INTO Завершенные VALUES(?, ?, ?)"""
+        upd_done = f"""INSERT INTO Завершенные VALUES(?, ?, ?, ?)"""
 
         self.__cursor.execute(upd)
         self.__cursor.execute(upd_all)
         if status:
-            self.__cursor.execute(upd_done, (data[0], status, date))
+            self.__cursor.execute(upd_done, (data[0], status, date, important))
             self.delete(table_name, data[0])
             self.delete('Все', data[0])
         else:
