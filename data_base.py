@@ -112,6 +112,8 @@ class DataBase:
         self.__cursor.execute(upd_all)
         if status:
             self.__cursor.execute(upd_done, (data[0], status, date))
+            self.delete(table_name, data[0])
+            self.delete('Все', data[0])
         else:
             self.delete('Завершенные', data[0])
 

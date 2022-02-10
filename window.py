@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QSize, QDate, QTime, QEvent
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMenu
+from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMenu, QMessageBox
 
 from Windows.add_win import Ui_Form
 from Windows.task_win import Ui_Form as Task
@@ -47,10 +47,15 @@ class AddWindow(QWidget, Ui_Form):
         Создать новый список задач
         :return: None
         """
-        name = self.name_item.text(),
+        name = (self.name_item.text(), )
         if name[0]:
-            DB.add_new_item_in_main_list(name)
-        self.quit()
+            check_in = DB.get_from('main_items', name[0])
+            if not check_in:
+                DB.add_new_item_in_main_list(name)
+                self.quit()
+            else:
+                QMessageBox.critical(self, "Ошибка", "Уже есть такой список", QMessageBox.Ok)
+                logger.error('Уже есть такая таблица')
 
     def quit(self) -> None:
         """
@@ -122,7 +127,7 @@ class TaskWindow(QWidget, Task):
         self.list_todo.addItem(QListWidgetItem(icon, name))
         self.list_todo.setIconSize(QSize(size, size))
 
-    def double_clicked(self, item) -> None:
+    def double_clicked(self, item: QListWidgetItem) -> None:
         """
         Обработчик двойного клика по задаче
         :param item: событие нажатия по элементу
@@ -147,7 +152,7 @@ class TaskWindow(QWidget, Task):
                 menu = QMenu()
                 delete_action = menu.addAction(QIcon(icon_bin), 'Удалить')
                 edit_action = menu.addAction(QIcon(icon_refresh), 'Изменить')
-                # move_action = menu.addAction(QIcon(icon_move), 'Перенести в')
+                # move_action = menu.addAction(QIcon(icon_move), 'Важно')
 
                 action = menu.exec_(event.globalPos())
                 if action == delete_action:
