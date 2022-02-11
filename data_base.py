@@ -179,3 +179,17 @@ class DataBase:
             f"""UPDATE settings SET {col}='{new_item}' WHERE {col}='{old_item}';""")
         self.__connect.commit()
         logger.info(f'Настройки изменены | {col}:{old_item} => {new_item}')
+
+    def set_important(self, table_name: str, task: str):
+        *data, date, important = self.get_from(table_name, task)
+        important = 0 if important else 1
+        upd = f"""UPDATE {table_name} SET importance = {important} WHERE items = '{task}';"""
+        upd_important = f'''INSERT INTO Важно VALUES(?, ?, ?, ?)'''
+
+        self.__cursor.execute(upd)
+        self.__cursor.execute(upd_important, (data[0], data[1], date, important))
+        self.delete(table_name, task)
+
+        self.__connect.commit()
+
+

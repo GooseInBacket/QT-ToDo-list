@@ -47,7 +47,7 @@ class AddWindow(QWidget, Ui_Form):
         Создать новый список задач
         :return: None
         """
-        name = (self.name_item.text(), )
+        name = (self.name_item.text(),)
         if name[0]:
             check_in = DB.get_from('main_items', name[0])
             if not check_in:
@@ -152,13 +152,16 @@ class TaskWindow(QWidget, Task):
                 menu = QMenu()
                 delete_action = menu.addAction(QIcon(icon_bin), 'Удалить')
                 edit_action = menu.addAction(QIcon(icon_refresh), 'Изменить')
-                # move_action = menu.addAction(QIcon(icon_move), 'Важно')
+                important = menu.addAction(QIcon(icon_move), 'Важно')
 
                 action = menu.exec_(event.globalPos())
                 if action == delete_action:
                     self.delete(text)
                 elif action == edit_action:
                     self.edit(text, QIcon(edit_action.icon()))
+                elif action == important:
+                    DB.set_important(self.__window_name, text)
+                    self.update_tasks()
             return True
         return super().eventFilter(source, event)
 
@@ -289,7 +292,6 @@ class SettingWin(QWidget, Ui_Settings):
 
     @logger.catch(message='Ошибка настроек окна "Настройки"')
     def window_settings(self, icon: QIcon = None) -> None:
-
         self.spinBox.setValue(DB.get_settings('icon'))
         self.setStyleSheet(DB.get_settings('color'))
 
