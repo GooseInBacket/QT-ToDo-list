@@ -41,7 +41,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @logger.catch(message='Ошибка обновления главного окна')
     def create_main_menu(self) -> None:
-        # print(self.sender())
         """
         Создаёт списки на главном окне
         :return: None
