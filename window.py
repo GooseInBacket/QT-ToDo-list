@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QSize, QDate, QTime, QEvent
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMenu, QMessageBox
+from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMenu, QMessageBox, QPushButton
 
 from Windows.add_win import Ui_Form
 from Windows.task_win import Ui_Form as Task
@@ -284,16 +284,18 @@ class SettingWin(QWidget, Ui_Settings):
 
     window_closed = QtCore.pyqtSignal()
 
-    def __init__(self, icon: QIcon = None, parent=None):
+    def __init__(self, parent=None):
         super(SettingWin, self).__init__(parent)
 
         self.setupUi(self)
-        self.window_settings(icon)
+        self.window_settings()
 
     @logger.catch(message='Ошибка настроек окна "Настройки"')
-    def window_settings(self, icon: QIcon = None) -> None:
+    def window_settings(self) -> None:
         self.spinBox.setValue(DB.get_settings('icon'))
         self.setStyleSheet(DB.get_settings('color'))
+
+        self.font_count.setEnabled(False)  # пока не работает, ок?
 
         self.pink.clicked.connect(lambda ch, btn=self.pink: self.set_color(btn))
         self.black.clicked.connect(lambda ch, btn=self.black: self.set_color(btn))
@@ -305,7 +307,12 @@ class SettingWin(QWidget, Ui_Settings):
 
     @classmethod
     @logger.catch(message='Невозможно изменить цвет')
-    def set_color(cls, bttn):
+    def set_color(cls, bttn: QPushButton) -> None:
+        """
+        Установка цвета фона приложения
+        :param bttn: Экземпляр нажатой кнопки
+        :return: None
+        """
         old_color = DB.get_settings('color')
         new_color = bttn.styleSheet()
         DB.update_settings('color', new_color, old_color)
