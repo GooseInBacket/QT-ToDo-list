@@ -7,13 +7,22 @@
 ```commandline
 python -m venv env
 ```
-* Из корня папки перейти и выполнить `cd env/scripts/activate.bat`
-* Установить зависимости `pip install requirement.txt `
+* Из корня папки перейти и выполнить 
+```commandline 
+cd env/scripts/activate.bat
+```
+* Установить зависимости 
+```commandline
+pip install requirement.txt 
+```
 * Если всё прошло успешно, то приложение готово к использованию
 
 ### Возможные ошибки:
 Если у вас ошибка в активации activate.bat через PowerShell, то  
-в системном PS вы можете выполнить следующую команду `Set-ExecutionPolicy RemoteSigned`
+в системном PS вы можете выполнить следующую команду 
+```commandline
+Set-ExecutionPolicy RemoteSigned
+```
 
 ## Описание приложения
 Приложение "Список задач" позволяет планировать своё время и продуктивнее выполнять поставленные задачи.  
